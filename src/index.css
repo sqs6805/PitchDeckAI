@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design tokens ───────────────────────────────────────────────────── */
+:root {
+  --bg: #0c1220;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-md: rgba(255, 255, 255, 0.06);
+  --surface-high: rgba(255, 255, 255, 0.09);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-accent: rgba(56, 189, 248, 0.3);
+  --accent: #38bdf8;
+  --accent-dim: rgba(56, 189, 248, 0.1);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-faint: #475569;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+/* ─── Base ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 120% 70% at 10% -5%, rgba(14, 165, 233, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 92% 105%, rgba(99, 102, 241, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 55% 55%, rgba(15, 23, 66, 0.6) 0%, transparent 80%);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Grain texture overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ─── Glass utilities ─────────────────────────────────────────────────── */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--border);
+}
+
+.glass-card {
+  background: var(--surface);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card-interactive {
+  background: var(--surface);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.glass-card-interactive:hover {
+  background: var(--surface-md);
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Form elements ───────────────────────────────────────────────────── */
+.field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.5;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  outline: none;
+}
+.field::placeholder { color: var(--text-faint); }
+.field:focus {
+  border-color: rgba(56, 189, 248, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+}
+.field:hover:not(:focus) { border-color: rgba(255, 255, 255, 0.14); }
+
+textarea.field { resize: none; }
+
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+select.field option { background: #1e293b; color: var(--text); }
+
+/* ─── Buttons ─────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: var(--radius-sm);
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+.btn:disabled { opacity: 0.38; cursor: not-allowed; transform: none !important; }
+
+.btn-primary {
+  background: #0ea5e9;
+  color: white;
+  font-weight: 600;
+}
+.btn-primary:not(:disabled):hover { background: #0284c7; transform: translateY(-1px); }
+.btn-primary:not(:disabled):active { transform: scale(0.98); }
+
+.btn-ghost {
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.btn-ghost:not(:disabled):hover {
+  background: var(--surface-md);
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.btn-accent-outline {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  font-weight: 500;
+}
+.btn-accent-outline:not(:disabled):hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.btn-lg { padding: 12px 24px; font-size: 15px; border-radius: var(--radius-md); }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ─── Score bars ──────────────────────────────────────────────────────── */
+.score-bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.07); overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+
+/* ─── Missing field ───────────────────────────────────────────────────── */
+.missing-field {
+  background: rgba(251, 191, 36, 0.06);
+  border: 1px dashed rgba(251, 191, 36, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  color: rgba(253, 230, 138, 0.85);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ─── Divider ─────────────────────────────────────────────────────────── */
+.divider { border: none; border-top: 1px solid var(--border); }
+
+/* ─── Research content markdown ───────────────────────────────────────── */
+.research-content h1,
+.research-content h2 { font-size: 13px; font-weight: 700; margin: 14px 0 6px; color: var(--accent); letter-spacing: 0.02em; text-transform: uppercase; }
+.research-content h3 { font-size: 14px; font-weight: 600; margin: 10px 0 4px; color: var(--text); }
+.research-content p { margin: 6px 0; line-height: 1.65; font-size: 14px; }
+.research-content ul, .research-content ol { margin: 6px 0; padding-left: 20px; }
+.research-content li { margin: 4px 0; line-height: 1.55; font-size: 14px; }
+.research-content strong { color: var(--text); font-weight: 600; }
+
+/* ─── Slide aspect ratio ──────────────────────────────────────────────── */
+.slide-aspect { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+
+/* ─── Slide content overflow control ─────────────────────────────────── */
+/* Belt-and-braces: ensure nothing inside a slide can leak past the 16:9 box */
+.slide-aspect, .slide-aspect * { min-width: 0; min-height: 0; }
+.slide-aspect h1, .slide-aspect h2, .slide-aspect h3,
+.slide-aspect p, .slide-aspect span, .slide-aspect div {
+  overflow-wrap: anywhere; word-break: break-word; hyphens: auto;
+}
+/* Every rounded card/box inside a slide gets overflow hidden */
+.slide-aspect [class*="rounded-xl"],
+.slide-aspect [class*="rounded-2xl"],
+.slide-aspect [class*="rounded-full"] {
+  overflow: hidden;
+}
+/* Flex children inside slides must be allowed to shrink */
+.slide-aspect .flex-1 { min-width: 0; min-height: 0; overflow: hidden; }
+.clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-6 { display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ─── Print ───────────────────────────────────────────────────────────── */
+/* Use the standard "landscape" orientation keyword — honored by EVERY browser
+   (Chrome, Safari, Firefox, Edge). Custom inch sizes are only respected by
+   Chromium and make Safari/Firefox fall back to portrait, so we avoid them. */
+@page { size: landscape; margin: 0; }
+
+@media print {
+  /* Force browsers to print background colors, gradients and images. Without
+     this, print/PDF strips every background by default — the slides lose their
+     gradients, accent bars and colored cards and render as plain white. */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Release the height/overflow constraints the app sets on its scroll
+     containers — without this the print output is clipped to one viewport. */
+  html, body, #root { height: auto !important; overflow: visible !important; }
+
+  /* Hide all the app chrome */
+  .no-print { display: none !important; }
+  body { background: white; }
+  body::after { display: none; }
+
+  /* Hide the single-slide viewer */
+  .print-hide-in-print { display: none !important; }
+
+  /* Show the all-slides print container */
+  .print-only { display: block !important; }
+
+  /* Each slide is one full landscape page, with the slide centered on it. */
+  .print-slide {
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+    position: relative;
+  }
+  .print-slide:last-child { page-break-after: auto; }
+
+  /* The 1280×720 design canvas, scaled to span the full page width
+     (1280 × 0.825 = 1056px = 11in, the width of US-Letter landscape) and
+     centered — correct orientation in every browser, full-width fill. */
+  .print-slide-inner {
+    flex: none;
+    width: 1280px; height: 720px;
+    transform: scale(0.825);
+    transform-origin: center center;
+  }
+}
+
+.print-only { display: none; }
